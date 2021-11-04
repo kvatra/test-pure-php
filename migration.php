@@ -2,7 +2,7 @@
 
 require_once './vendor/autoload.php';
 
-use App\Database;
+use App\Infrastructure\Services\Database;
 
 $sql = <<<SQL
     create table logs (

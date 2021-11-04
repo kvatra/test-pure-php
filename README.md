@@ -9,3 +9,10 @@ docker-compose up -d
 ```
 docker exec nevosoft_app_1 php migration.php
 ```
+Заполнение тестовыми данными таблицы происходит через запуск файла seed. 
+Он имеет дефолтные значения, но можно заполнить и своими по желанию.
+
+Команда: 
+```
+docker exec nevosoft_app_1 php seed.php
+```

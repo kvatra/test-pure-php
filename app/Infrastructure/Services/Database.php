@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Infrastructure\Services;
 
+use App\Infrastructure\DTO\LogFilter;
 use PDO;
+use PDOStatement;
 
 class Database
 {
@@ -21,12 +23,18 @@ class Database
         $this->password = $password;
     }
 
-    public function execute(string $sql, array $options = [])
+    public function execute(string $sql)
     {
-        $pdo = $this->makePdo();
+        return $this->makePreparedPdo($sql)
+            ->execute();
+    }
 
-        return $pdo->prepare($sql, $options)
-            ->execute($options);
+    public function fetch(string $sql, array $bindings = []): array
+    {
+        $dto = $this->makePreparedPdo($sql);
+        $dto->execute($bindings);
+
+        return $dto->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function makeWithDefaultConfig(): self
@@ -39,12 +47,14 @@ class Database
         );
     }
 
-    private function makePdo(): PDO
+    private function makePreparedPdo(string $sql): PDOStatement
     {
         $connectionString = "pgsql:dbname=$this->database;host=$this->host";
 
-        return new PDO($connectionString, $this->user, $this->password, [
+        $pdo = new PDO($connectionString, $this->user, $this->password, [
             [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
         ]);
+
+        return $pdo->prepare($sql);
     }
 }
