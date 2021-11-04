@@ -18,7 +18,7 @@ class Pagination implements ToHtml
 
     public function makeHtml(): string
     {
-        $html = 'Навигация: </h2><p>';
+        $html = '<h2> Навигация: </h2><p>';
 
         if ($this->currentLogPage->isPrevPageExists()) {
             $html .= '<button onclick="prevPage()" ><strong> < </button>';

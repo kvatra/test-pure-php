@@ -18,8 +18,8 @@ $logsPage = (new LogRetriever())->fetch($logsRequest);
 
 $components = [
     new Filters($logsRequest->getFilters()),
-    new Table($logsPage->getCurrentPageData()),
     new Pagination($logsPage),
+    new Table($logsPage->getCurrentPageData()),
 ];
 
 $view = new HtmlTemplate($components);
